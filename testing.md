@@ -29,6 +29,8 @@ The following game features / functionality and player actions will need to be t
 - FUNCTIONALITY / FEATURE / ACTION TO TEST
 - FUNCTIONALITY / FEATURE / ACTION TO TEST
 
+e.g. game win, no coin on space that is selected, jumping over coin.
+
 The following tests will be run against the completed game. The tests should result in the expected outcomes shown.
 
 

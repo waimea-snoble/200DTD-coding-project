@@ -37,6 +37,7 @@ fun main() {
 
     println("Hello $name1 and $name2 welcome to Old Gold")
 
+
     // Highlighted change: Place coins in the grid before displaying it
     for (coin in coins) {
         var position: Int
@@ -46,18 +47,57 @@ fun main() {
         grid[position] = coin // Place the coin in the grid
     }
 
+
     // Highlighted change: Display the game board after placing coins
     gameBoard(grid) // Now it will display the grid with coins
 
     var currentPlayer = name1
-    println("$currentPlayer, select the number of the coin you would like to move")
-    val select = readln().toInt() - 1
+    var cointomove = false
+    var selectedCoin = 0
 
-    if (grid[select] == " ") {
-        println("There is no coin in this space, try again")
+    while (true) { // Loop indefinitely until the game ends
+        cointomove = false
+
+
+        while (!cointomove) {
+
+            println("$currentPlayer, select the number of the coin you would like to move")
+            val select = readln().toInt() - 1
+
+
+            if (grid[select] == " ") {
+                println("There is no coin in this space, try again")
+            } else cointomove = true
+            selectedCoin = select
+        }
+
+
+    // Ask the player where to move the coin
+    var movingcoin = false
+    while (!movingcoin) {
+        println("$currentPlayer, select the number of the space where you want to move the coin:")
+        val move = readln().toInt() - 1 // Subtract 1 to convert to 0-based index
+
+        // Validate that the destination space is empty
+        if (grid[move] != " ") {
+            println("That space is already occupied. Try again.")
+        }
+        else if (move >= selectedCoin) { // Only allow moving to the left
+            println("You can only move the coin to a space to the left. Try again.")
+        }
+        else { movingcoin = true
+            grid[move] = grid[selectedCoin] // Move the coin to the new position
+            grid[selectedCoin] = " " // Clear the original position
+            movingcoin = true // Exit the loop
+            gameBoard(grid)
+        }
     }
-
+    // Switch players
+    currentPlayer = if (currentPlayer == name1) name2 else name1
+        println("now it is $currentPlayer's turn")
 }
+}
+
 
 /**
  * Function to display the game board
