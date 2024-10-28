@@ -64,9 +64,10 @@ fun main() {
             println("$currentPlayer, select the number of the coin you would like to move, or type 0 to remove the coin at position 1 ")
             val select = readln()
 
+
             if (select == "0") {
                 // Remove the coin at position 1
-                removeCoin(grid)
+                removeCoin(grid, currentPlayer)
                 gameBoard(grid)
                 // Switch players
                 currentPlayer = if (currentPlayer == name1) name2 else name1
@@ -134,14 +135,32 @@ fun gameBoard(grid: MutableList<String>) {
 
 //Function to remove the coin at position 1
 
-fun removeCoin(grid: MutableList<String>) {
+fun removeCoin(grid: MutableList<String>, currentPlayer: String) {
     val position = 0 // Position 1 corresponds to index 0
-    if (grid[position] != " ") {
+
+    // Capture the value at position 1 before clearing it
+    val coin = grid[position]
+
+    if (coin != " ") {
         grid[position] = " " // Set the position to empty space
         println("Coin removed from position 1.")
+
+        // Check if the removed coin was the "O" coin
+        if (coin == "O") {
+            println("$currentPlayer Wins!!!")
+
+        }
     } else {
         println("There is no coin to remove at position 1.")
     }
 }
 
+
+
 //https://en.wikipedia.org/wiki/Box-drawing_characters
+//test edge cases
+//+-------------------------------------------------------------------------------+
+//|   | X |   | X |   |   |   | X |   |   | X |   |   |   |   |   | X |   | O |   |
+//+-------------------------------------------------------------------------------+
+//|1  |2  |3  |4  |5  |6  |7  |8  |9  |10 |11 |12 |13 |14 |15 |16 |17 |18 |19 |20 |
+//for example test the movement of coin 11 to 7, 9, 19, 12, 16 the edge of coins for each valid move
