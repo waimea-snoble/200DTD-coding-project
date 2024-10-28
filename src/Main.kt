@@ -54,7 +54,6 @@ fun main() {
     var currentPlayer = name1
     var cointomove = false
     var selectedCoin = 0
-
     while (true) { // Loop indefinitely until the game ends
         cointomove = false
 
@@ -145,6 +144,7 @@ fun removeCoin(grid: MutableList<String>, currentPlayer: String) {
         grid[position] = " " // Set the position to empty space
         println("Coin removed from position 1.")
 
+
         // Check if the removed coin was the "O" coin
         if (coin == "O") {
             println("$currentPlayer Wins!!!")
@@ -153,8 +153,8 @@ fun removeCoin(grid: MutableList<String>, currentPlayer: String) {
     } else {
         println("There is no coin to remove at position 1.")
     }
-}
 
+}
 
 
 //https://en.wikipedia.org/wiki/Box-drawing_characters
