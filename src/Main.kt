@@ -61,14 +61,24 @@ fun main() {
 
         while (!cointomove) {
 
-            println("$currentPlayer, select the number of the coin you would like to move")
-            val select = readln().toInt() - 1
+            println("$currentPlayer, select the number of the coin you would like to move, or type 0 to remove the coin at position 1 ")
+            val select = readln()
 
+            if (select == "0") {
+                // Remove the coin at position 1
+                removeCoin(grid)
+                gameBoard(grid)
+                // Switch players
+                currentPlayer = if (currentPlayer == name1) name2 else name1
+                println("now it is $currentPlayer's turn")
+            } else {
 
-            if (grid[select] == " ") {
-                println("There is no coin in this space, try again")
-            } else cointomove = true
-            selectedCoin = select
+                val select = select.toInt() - 1 // Convert input to 0-based index
+                if (grid[select] == " ") {
+                    println("There is no coin in this space, try again")
+                } else cointomove = true
+                selectedCoin = select
+            }
         }
 
 
@@ -120,4 +130,16 @@ fun gameBoard(grid: MutableList<String>) {
     }
     print("|")
     println() // New line after the numbers
+}
+
+//Function to remove the coin at position 1
+
+fun removeCoin(grid: MutableList<String>) {
+    val position = 0 // Position 1 corresponds to index 0
+    if (grid[position] != " ") {
+        grid[position] = " " // Set the position to empty space
+        println("Coin removed from position 1.")
+    } else {
+        println("There is no coin to remove at position 1.")
+    }
 }
