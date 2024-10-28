@@ -143,3 +143,5 @@ fun removeCoin(grid: MutableList<String>) {
         println("There is no coin to remove at position 1.")
     }
 }
+
+//https://en.wikipedia.org/wiki/Box-drawing_characters
