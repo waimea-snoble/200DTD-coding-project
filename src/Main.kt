@@ -35,9 +35,22 @@
 import kotlin.random.Random
 
 fun main() {
-    println("What size would you like the game to be?")
-    val gridSize = readln().toInt()
+
+    var gridSize = 0
+
+    while (true) {
+        // Get the size of the grid from the user
+        println("What size would you like the game to be?")
+        gridSize = readln().toInt()
+
+        if (gridSize >= 1) {
+            break // Valid input, exit the loop
+        } else {
+            println("Invalid input. Please enter a positve number greater than 1")
+        }
+    }
     val grid = MutableList(gridSize) { " " } // Represents the game board
+
 
 
     var numCoins = 0
@@ -115,14 +128,20 @@ fun main() {
                         }
 
                     } else {
-                        val select = select.toInt() - 1 // Convert input to 0-based index
-                        if (grid[select] == " ") {
-                            println("There is no coin in this space, try again")
-                        } else {
-                            cointomove = true
-                            selectedCoin = select
+
+                            val select = select.toInt() - 1 // Convert input to 0-based index
+                            if (grid[select] == " ") {
+                                println("There is no coin in this space, try again")
+                            }
+                            if (select > gridSize || select <=0) {
+                                println("Invalid input. Please enter a number from 1 to $gridSize")
+                            }
+                            else {
+                                cointomove = true
+                                selectedCoin = select
+                            }
                         }
-                    }
+
 
 
                 }
@@ -203,3 +222,5 @@ fun removeCoin(grid: MutableList<String>): String {
 //+-------------------------------------------------------------------------------+
 //|1  |2  |3  |4  |5  |6  |7  |8  |9  |10 |11 |12 |13 |14 |15 |16 |17 |18 |19 |20 |
 //for example test the movement of coin 11 to 7, 9, 19, 12, 16 the edge of coins for each valid move
+//ask if i need a maximum grid size
+//do i need to use colours and use box drawing
