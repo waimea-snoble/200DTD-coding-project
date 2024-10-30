@@ -46,7 +46,7 @@ fun main() {
         println("How many coins would you like to place on the grid?")
         numCoins = readln().toInt()
 
-        if (numCoins > gridSize) {
+        if (numCoins < gridSize) {
             break // Valid input, exit the loop
         } else {
             println("Invalid input. Please enter a number between 1 and $gridSize.")
