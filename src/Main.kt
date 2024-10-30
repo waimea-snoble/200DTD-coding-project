@@ -37,8 +37,8 @@ import kotlin.random.Random
 fun main() {
     println("What size would you like the game to be?")
     val gridSize = readln().toInt()
-
     val grid = MutableList(gridSize) { " " } // Represents the game board
+
 
     var numCoins = 0
     while (true) {
@@ -46,10 +46,10 @@ fun main() {
         println("How many coins would you like to place on the grid?")
         numCoins = readln().toInt()
 
-        if (numCoins < gridSize) {
+        if (numCoins > 0 && numCoins < gridSize) {
             break // Valid input, exit the loop
         } else {
-            println("Invalid input. Please enter a number between 1 and $gridSize.")
+            println("Invalid input. Please enter a number between 1 and $gridSize")
         }
     }
 
@@ -80,67 +80,81 @@ fun main() {
 
     var currentPlayer = name1
     var win = false
+
     while (!win) {
-        var cointomove = false
-        var selectedCoin = 0
+            var cointomove = false
+            var selectedCoin = 0
 
-        while (true) { // Loop indefinitely until the game ends
-            cointomove = false
 
-            while (!cointomove) {
-                println("$currentPlayer, select the number of the coin you would like to move, or type 0 to remove the coin at position 1 ")
-                val select = readln()
+            while (true) { // Loop indefinitely until the game ends
+                cointomove = false
 
-                if (select == "0") {
-                    // Remove the coin at position 1 and check if it results in a win
-                    win = removeCoin(grid, currentPlayer)
-                    if (win) {
-                        println("$currentPlayer wins!")
-                        break
+
+                while (!cointomove) {
+                    println("$currentPlayer, select the number of the coin you would like to move, or type 0 to remove the coin at position 1 ")
+                    val select = readln()
+
+
+                    if (select == "0") {
+                        // Remove the coin at position 1 and check if it results in a win
+                        val removedCoin = removeCoin(grid)
+                        if (removedCoin == "O") {
+                            win = true
+                            println("$currentPlayer wins!")
+                            break
+                        }
+
+                        if (removedCoin == " ") {
+                            println("There is no coin to remove at position 1.")
+                        }
+
+                        if (removedCoin == "X") {
+                            gameBoard(grid)
+                            currentPlayer = if (currentPlayer == name1) name2 else name1
+                            println("now it is $currentPlayer's turn")
+                        }
+
                     } else {
+                        val select = select.toInt() - 1 // Convert input to 0-based index
+                        if (grid[select] == " ") {
+                            println("There is no coin in this space, try again")
+                        } else {
+                            cointomove = true
+                            selectedCoin = select
+                        }
+                    }
+
+
+                }
+
+                // Check if the game has ended after removing a coin
+                if (win) {
+                    break // Exit the outer loop if a player won
+                }
+
+                // Ask the player where to move the coin
+                var movingcoin = false
+                while (!movingcoin) {
+                    println("$currentPlayer, select the number of the space where you want to move the coin:")
+                    val move = readln().toInt() - 1 // Subtract 1 to convert to 0-based index
+
+                    // Validate that the destination space is empty
+                    if (grid[move] != " ") {
+                        println("That space is already occupied. Try again.")
+                    } else if (move >= selectedCoin) { // Only allow moving to the left
+                        println("You can only move the coin to a space to the left. Try again.")
+                    } else {
+                        movingcoin = true
+                        grid[move] = grid[selectedCoin] // Move the coin to the new position
+                        grid[selectedCoin] = " " // Clear the original position
                         gameBoard(grid)
-                        // Switch players
-                        currentPlayer = if (currentPlayer == name1) name2 else name1
-                        println("now it is $currentPlayer's turn")
-                    }
-                } else {
-                    val select = select.toInt() - 1 // Convert input to 0-based index
-                    if (grid[select] == " ") {
-                        println("There is no coin in this space, try again")
-                    } else {
-                        cointomove = true
-                        selectedCoin = select
                     }
                 }
+                // Switch players
+                currentPlayer = if (currentPlayer == name1) name2 else name1
+                println("now it is $currentPlayer's turn")
             }
 
-            // Check if the game has ended after removing a coin
-            if (win) {
-                break // Exit the outer loop if a player won
-            }
-
-            // Ask the player where to move the coin
-            var movingcoin = false
-            while (!movingcoin) {
-                println("$currentPlayer, select the number of the space where you want to move the coin:")
-                val move = readln().toInt() - 1 // Subtract 1 to convert to 0-based index
-
-                // Validate that the destination space is empty
-                if (grid[move] != " ") {
-                    println("That space is already occupied. Try again.")
-                } else if (move >= selectedCoin) { // Only allow moving to the left
-                    println("You can only move the coin to a space to the left. Try again.")
-                } else {
-                    movingcoin = true
-                    grid[move] = grid[selectedCoin] // Move the coin to the new position
-                    grid[selectedCoin] = " " // Clear the original position
-                    gameBoard(grid)
-                }
-            }
-            // Switch players
-            currentPlayer = if (currentPlayer == name1) name2 else name1
-            println("now it is $currentPlayer's turn")
-        }
     }
 }
 
@@ -167,7 +181,7 @@ fun gameBoard(grid: MutableList<String>) {
 }
 
 // Function to remove the coin at position 1
-fun removeCoin(grid: MutableList<String>, currentPlayer: String): Boolean {
+fun removeCoin(grid: MutableList<String>): String {
     val position = 0 // Position 1 corresponds to index 0
 
     // Capture the value at position 1 before clearing it
@@ -176,15 +190,10 @@ fun removeCoin(grid: MutableList<String>, currentPlayer: String): Boolean {
     if (coin != " ") {
         grid[position] = " " // Set the position to empty space
         println("Coin removed from position 1.")
-
-        // Check if the removed coin was the "O" coin
-        if (coin == "O") {
-            return true
-        }
+        return coin // Return the removed coin
     } else {
-        println("There is no coin to remove at position 1.")
+        return " " // Return a blank space if nothing was there
     }
-    return false
 }
 
 //https://en.wikipedia.org/wiki/Box-drawing_characters
