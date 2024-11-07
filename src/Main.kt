@@ -32,6 +32,8 @@
  * Program entry point
  */
 
+
+
 import kotlin.random.Random
 
 fun main() {
@@ -40,13 +42,13 @@ fun main() {
 
     while (true) {
         // Get the size of the grid from the user
-        println("What size would you like the game to be?")
+        println("What size would you like the game to be? The minimum grid size is 10 and the maximum grid size is 35")
         gridSize = readln().toInt()
 
-        if (gridSize >= 1) {
+        if (gridSize >= 10 && gridSize <= 35) {
             break // Valid input, exit the loop
         } else {
-            println("Invalid input. Please enter a positve number greater than 1")
+            println("Invalid input. Please enter a positve between 10 and 30")
         }
     }
     val grid = MutableList(gridSize) { " " } // Represents the game board
@@ -119,6 +121,7 @@ fun main() {
 
                         if (removedCoin == " ") {
                             println("There is no coin to remove at position 1.")
+                            gameBoard(grid)
                         }
 
                         if (removedCoin == "X") {
@@ -133,6 +136,7 @@ fun main() {
                             val select = select.toInt() - 1 // Convert input to 0-based index
                             if (grid[select] == " ") {
                                 println("There is no coin in this space, try again")
+                                gameBoard(grid)
                             }
 
                              else {
@@ -160,15 +164,29 @@ fun main() {
                     // Validate that the destination space is empty
                     if (grid[move] != " ") {
                         println("That space is already occupied. Try again.")
+                        gameBoard(grid)
                     } else if (move >= selectedCoin) { // Only allow moving to the left
                         println("You can only move the coin to a space to the left. Try again.")
-                    } else {
-                        movingcoin = true
-                        grid[move] = grid[selectedCoin] // Move the coin to the new position
-                        grid[selectedCoin] = " " // Clear the original position
                         gameBoard(grid)
-                    }
+                    } else {
+                        // Ensure no coins are in between selectedCoin and move
+                        if ((move + 1 until selectedCoin).all {grid[it] == " "}) {
+                            movingcoin = true
+                            grid[move] = grid[selectedCoin] // Move the coin to the new position
+                            grid[selectedCoin] = " " // Clear the original position
+                            gameBoard(grid)
+
+                            }
+                         else {
+                             println("try again")
+                            gameBoard(grid)
+                             }
+
+
+
+
                 }
+                    }
                 // Switch players
                 currentPlayer = if (currentPlayer == name1) name2 else name1
                 println("now it is $currentPlayer's turn")
@@ -194,7 +212,11 @@ fun gameBoard(grid: MutableList<String>) {
         print(" ${grid[i]} |") // Print each coin or empty space with borders
     }
     println() // New line after the row
-    println("+-------------------------------------------------------------------------------+")
+    repeat(grid.size) {
+        print("+---")
+    }
+    print("+")
+    println()
 
     var index = 1
     for (coin in grid) {
@@ -229,6 +251,9 @@ fun removeCoin(grid: MutableList<String>): String {
 //for example test the movement of coin 11 to 7, 9, 19, 12, 16 the edge of coins for each valid move
 //ask if i need a maximum grid size
 //do i need to use colours and use box drawing
+// add a message and loop for when the user selects to move or move a coin to a number not on the grid e.g. 0, -20, 60
+// add a message for when the user inputs a letter when choosing a number on the grid, grid size, coin size
+
 
 
 
