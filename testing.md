@@ -279,13 +279,11 @@ https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/
 # NOTE FOR VIDEO
 The first 30 seconds is frozen and it freezes sometimes throughout for me, so i dont know if it will be the same for you
 
-1.
-All of my expected outcomes were correct
+1. All of my expected outcomes were correct
 moving a coin to the right would result in an invalid move so the player would have to choose a different position to 
 move the coin. If the coin was moved to the left, aslong as it didnt jump over any coins or moved to an occupied space,
 the coin was successfully moved
-2. 
-if a coin jumoped over another coin it would rewuire the player to choose another position to move the coin to
+2. if a coin jumoped over another coin it would rewuire the player to choose another position to move the coin to
 without jumping over any coins.
 3. If there was any invalid move done by the player it would still be their turn and they could try again. if the move
 was valid it would then switch the players turn

@@ -1,17 +1,12 @@
-# PROJECT NAME HERE
+# OLD GOLD
 
-### Level 2 Programming Project by YOUR NAME HERE
+### Level 2 Programming Project by Scott
 
 This project is assessed against [AS91896](https://www.nzqa.govt.nz/nqfdocs/ncea-resource/achievements/2019/as91896.pdf)
 
 ## Project Description
 
 The project involves the programming of a two-player game.
-
-BRIEF PROJECT DESCRIPTION HERE
-BRIEF PROJECT DESCRIPTION HERE
-BRIEF PROJECT DESCRIPTION HERE
-BRIEF PROJECT DESCRIPTION HERE
 
 
 ## Source Code
